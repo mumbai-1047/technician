@@ -141,3 +141,33 @@ jobs:
           set -e
           export PATH="$HOME/flutter/bin:$PATH"
           flutter build ios --no-codesign --simulator -v
+
+                - name: Archive built app
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          set -e
+          echo "📦 Creating app archive..."
+          cd build/ios/Release-iphonesimulator
+          zip -r Runner.app.zip Runner.app
+          ls -lh Runner.app.zip
+
+      - name: Upload iOS app artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-app-simulator
+          path: ${{ env.APP_DIR }}/build/ios/Release-iphonesimulator/Runner.app.zip
+          retention-days: 30
+
+      - name: Create build summary
+        run: |
+          echo "✅ iOS Build Complete!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Build Artifacts" >> $GITHUB_STEP_SUMMARY
+          echo "- **Simulator App**: Available in artifacts (ios-app-simulator)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build Output**: build/ios/Release-iphonesimulator/Runner.app.zip" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Download Instructions" >> $GITHUB_STEP_SUMMARY
+          echo "1. Go to the workflow run page" >> $GITHUB_STEP_SUMMARY
+          echo "2. Scroll down to **Artifacts** section" >> $GITHUB_STEP_SUMMARY
+          echo "3. Download **ios-app-simulator**" >> $GITHUB_STEP_SUMMARY
+          echo "4. Unzip to get Runner.app" >> $GITHUB_STEP_SUMMARY
