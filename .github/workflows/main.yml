@@ -142,7 +142,7 @@ jobs:
           export PATH="$HOME/flutter/bin:$PATH"
           flutter build ios --no-codesign --simulator -v
 
-                - name: Archive built app
+      - name: Archive built app
         working-directory: ${{ env.APP_DIR }}
         run: |
           set -e
