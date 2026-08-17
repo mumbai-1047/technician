@@ -51,12 +51,12 @@ jobs:
         working-directory: ${{ env.APP_DIR }}/ios
         run: |
           set -e
-          echo "Updating Runner.xcodeproj to target iOS 14.0..."
-          sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]*;/IPHONEOS_DEPLOYMENT_TARGET = 14.0;/g' Runner.xcodeproj/project.pbxproj
-          grep "IPHONEOS_DEPLOYMENT_TARGET = 14.0" Runner.xcodeproj/project.pbxproj | head -3
+          echo "Updating Runner.xcodeproj to target iOS 15.0..."
+          sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]*;/IPHONEOS_DEPLOYMENT_TARGET = 15.0;/g' Runner.xcodeproj/project.pbxproj
+          grep "IPHONEOS_DEPLOYMENT_TARGET = 15.0" Runner.xcodeproj/project.pbxproj | head -3
           echo "✓ Project deployment target updated"
 
-      - name: Ensure iOS Podfile targets iOS 14.0
+      - name: Ensure iOS Podfile targets iOS 15.0
         working-directory: ${{ env.APP_DIR }}/ios
         run: |
           set -e
@@ -69,9 +69,9 @@ jobs:
           text = path.read_text()
 
           if re.search(r"^platform\s+:ios", text, re.MULTILINE):
-              text = re.sub(r"^platform\s+:ios.*$", "platform :ios, '14.0'", text, count=1, flags=re.MULTILINE)
+              text = re.sub(r"^platform\s+:ios.*$", "platform :ios, '15.0'", text, count=1, flags=re.MULTILINE)
           else:
-              text = "platform :ios, '14.0'\n" + text
+              text = "platform :ios, '15.0'\n" + text
 
           path.write_text(text)
           print("Podfile updated successfully")
